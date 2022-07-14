@@ -55,7 +55,7 @@ function OrderbookDataHook() {
 				console.log("log it")
 				axios({
 					method: 'get',
-					url: "http://localhost:3000/api/aggtokenusd",
+					url: "http://localhost:9000/.netlify/functions/aggtokenusd",
 					params: {token : "ethereum"},
 					responseType: 'json',
 					timeout: '3000'
