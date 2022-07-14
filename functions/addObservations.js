@@ -83,7 +83,6 @@ router.post('/addObservations', (req, res) => {
             }
         });
     }
-    mongoose.disconnect();
     res.send("finished attempting to save data");
 });
 
