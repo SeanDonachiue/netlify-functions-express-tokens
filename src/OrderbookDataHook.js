@@ -51,11 +51,12 @@ function OrderbookDataHook() {
 		fetchOBData();
 	}, []);
 
+	//todo switch URL on production environment
 	const fetchOBData = () => {
 				console.log("log it")
 				axios({
 					method: 'get',
-					url: "http://localhost:9000/.netlify/functions/aggtokenusd",
+					url: "https://master--bespoke-marshmallow-8f9fbc.netlify.app/.netlify/functions/aggtokenusd",
 					params: {token : "ethereum"},
 					responseType: 'json',
 					timeout: '10000'
