@@ -33,9 +33,8 @@ router.get('/aggtokenusd', (req, res) => {
         if (error) {
             console.log("Error!" + error);
         }
-    });
-
-    AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
+    }).then(()=> {
+        AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
         if (err) {console.log(err);
             res.send(err);
         }
@@ -43,8 +42,10 @@ router.get('/aggtokenusd', (req, res) => {
             console.log(aggregatedStamps);
             res.send(aggregatedStamps);
         }
+        mongoose.disconnect();
     });
-    mongoose.disconnect();
+    });
+    
 });
 
 app.use(cors())
