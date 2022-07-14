@@ -23,6 +23,7 @@ mongoose.Promise = global.Promise;
   
 mongoose.connect(db, { useNewUrlParser : true, 
 useUnifiedTopology: true }, function(error) {
+    console.log("db connected")
     if (error) {
         console.log("Error!" + error);
     }
