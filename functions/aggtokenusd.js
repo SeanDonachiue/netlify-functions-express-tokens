@@ -20,7 +20,7 @@ import AggregatedStampModel from './app/aggregatedStamp.js';
 const app = express();
 const router = express.Router();
 
-router.get('/aggtokenusd', (req, res) => {
+router.get('/aggtokenusd', async (req, res) => {
     console.log("req received")
     console.log(req.query.token);
     // Connecting to database
@@ -28,13 +28,13 @@ router.get('/aggtokenusd', (req, res) => {
     const db = (query);
     mongoose.Promise = global.Promise;
   
-    mongoose.connect(db, { useNewUrlParser : true, 
+    await mongoose.connect(db, { useNewUrlParser : true, 
     useUnifiedTopology: true }, function(error) {
         if (error) {
             console.log("Error!" + error);
         }
-    }).then(()=> {
-        AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
+    })
+    AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
         if (err) {console.log(err);
             res.send(err);
         }
@@ -43,9 +43,7 @@ router.get('/aggtokenusd', (req, res) => {
             res.send(aggregatedStamps);
         }
         mongoose.disconnect();
-    });
-    });
-    
+    }); 
 });
 
 app.use(cors())
