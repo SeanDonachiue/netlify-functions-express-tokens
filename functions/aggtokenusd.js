@@ -16,17 +16,6 @@ import TokenModel, {TimestampModel} from './app/token.js';
 import AggregatedStampModel from './app/aggregatedStamp.js';
 
 
-// Connecting to database
-var query = 'mongodb+srv://aegioh:jXMoXZsCliL5ku3K@cluster0.eusxn.mongodb.net/tokenDB?retryWrites=true&w=majority'
-const db = (query);
-mongoose.Promise = global.Promise;
-  
-mongoose.connect(db, { useNewUrlParser : true, 
-useUnifiedTopology: true }, function(error) {
-    if (error) {
-        console.log("Error!" + error);
-    }
-});
 
 const app = express();
 const router = express.Router();
@@ -34,7 +23,18 @@ const router = express.Router();
 router.get('/aggtokenusd', (req, res) => {
     console.log("req received")
     console.log(req.query.token);
-    while(mongoose.connection.readyState != 1) {console.log("waiting to connect");}
+    // Connecting to database
+    var query = 'mongodb+srv://aegioh:jXMoXZsCliL5ku3K@cluster0.eusxn.mongodb.net/tokenDB?retryWrites=true&w=majority'
+    const db = (query);
+    mongoose.Promise = global.Promise;
+  
+    mongoose.connect(db, { useNewUrlParser : true, 
+    useUnifiedTopology: true }, function(error) {
+        if (error) {
+            console.log("Error!" + error);
+        }
+    });
+
     AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
         if (err) {console.log(err);
             res.send(err);
