@@ -31,6 +31,7 @@ useUnifiedTopology: true }, function(error) {
 const app = express();
 const router = express.Router();
 router.get('/testget', (req, res) => {
+    console.log(mongoose.connection.readyState);
     mongoose.disconnect();
 	res.send("it receives requests");
 
