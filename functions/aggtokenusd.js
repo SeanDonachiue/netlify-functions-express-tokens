@@ -30,9 +30,11 @@ useUnifiedTopology: true }, function(error) {
 
 const app = express();
 const router = express.Router();
+
 router.get('/aggtokenusd', (req, res) => {
     console.log("req received")
     console.log(req.query.token);
+    while(mongoose.connection.readyState != 1) {console.log("waiting to connect");}
     AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
         if (err) {console.log(err);
             res.send(err);
