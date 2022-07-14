@@ -50,6 +50,8 @@ router.post('/addAggregatedStamps', (req, res) => {
         }
     })
     res.send("finished attempting to save data");
+}).then(() => {
+    mongoose.disconnect();
 });
 
 app.use(cors())
