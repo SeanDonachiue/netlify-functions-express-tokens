@@ -58,7 +58,7 @@ function OrderbookDataHook() {
 					url: "http://localhost:9000/.netlify/functions/aggtokenusd",
 					params: {token : "ethereum"},
 					responseType: 'json',
-					timeout: '3000'
+					timeout: '10000'
 				})
 				.then(res => {
 					let aggArray = res.data;
