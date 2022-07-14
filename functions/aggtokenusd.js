@@ -42,7 +42,6 @@ router.get('/aggtokenusd', (req, res) => {
             res.send(aggregatedStamps);
         }
     });
-}).then(() => {
     mongoose.disconnect();
 });
 

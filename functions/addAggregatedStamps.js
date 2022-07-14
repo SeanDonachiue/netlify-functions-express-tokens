@@ -49,10 +49,9 @@ router.post('/addAggregatedStamps', (req, res) => {
             console.log("data: " + data);
         }
     })
+    mongoose.disconect();
     res.send("finished attempting to save data");
-}).then(() => {
-    mongoose.disconnect();
-});
+})
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
