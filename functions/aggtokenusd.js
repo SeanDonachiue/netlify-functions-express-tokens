@@ -34,7 +34,9 @@ router.get('/aggtokenusd', (req, res) => {
     console.log("req received")
     console.log(req.query.token);
     AggregatedStampModel.find({ token: req.query.token}, (err, aggregatedStamps) => {
-        if (err) console.log(err);
+        if (err) {console.log(err);
+            res.send(err);
+        }
         else {
             console.log(aggregatedStamps);
             res.send(aggregatedStamps);
