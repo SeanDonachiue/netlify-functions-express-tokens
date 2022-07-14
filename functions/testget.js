@@ -32,6 +32,9 @@ const app = express();
 const router = express.Router();
 router.get('/testget', (req, res) => {
     console.log(mongoose.connection.readyState);
+    while(mongoose.connection.readyState != 1) {
+        console.log("waiting for db connection");
+    }
     mongoose.disconnect();
 	res.send("it receives requests");
 
