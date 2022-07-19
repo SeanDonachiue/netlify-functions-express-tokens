@@ -7,5 +7,4 @@
   functions = "functions-build"
 
 [functions]
-  included_files = ["functions/app/*"]
-  nodeBundler = "esbuild"
+  node_bundler = "esbuild"
