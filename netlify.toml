@@ -8,4 +8,4 @@
 
 [functions]
   included_files = ["functions/app/*"]
-
+  nodeBundler = "esbuild"
