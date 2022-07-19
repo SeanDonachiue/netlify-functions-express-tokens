@@ -36,9 +36,10 @@ router.post('/addAggregatedStamps', (req, res) => {
     let inputData = JSON.parse(req.body.data);
     //input is going to be one AggregatedStampModel
     console.log("request received" + inputData);
+    console.log(inputData.token)
     let newAggStamp = new AggregatedStampModel();
-    console.log("aggstamp initialized for token: " + newAggStamp.token);
     newAggStamp.token = inputData.token;
+    console.log("aggstamp initialized for token: " + newAggStamp.token);
     newAggStamp.stamp = inputData.stamp;
     newAggStamp.price = parseFloat(inputData.price);
     newAggStamp.obup = parseFloat(inputData.obup);
