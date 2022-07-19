@@ -7,6 +7,5 @@
   functions = "functions-build"
 
 [functions]
-  directory = "functions/"
-  included_files = ["./app/*"]
+  included_files = ["functions/app/*"]
 
