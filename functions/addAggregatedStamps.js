@@ -32,6 +32,7 @@ useUnifiedTopology: true }, function(error) {
 const app = express();
 const router = express.Router();
 router.post('/addAggregatedStamps', (req, res) => {
+    console.log(req.body.data);
     let inputData = JSON.parse(req.body.data);
     //input is going to be one AggregatedStampModel
     console.log("request received" + inputData);
