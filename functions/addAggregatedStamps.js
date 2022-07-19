@@ -35,17 +35,15 @@ router.post('/addAggregatedStamps', (req, res) => {
     console.log(req.body.data);
     let inputData = JSON.parse(req.body.data);
     //input is going to be one AggregatedStampModel
-    console.log("request received" + inputData);
     console.log(inputData.token)
     let newAggStamp = new AggregatedStampModel();
     newAggStamp.token = inputData.token;
-    console.log("aggstamp initialized for token: " + newAggStamp.token);
     newAggStamp.stamp = inputData.stamp;
     newAggStamp.price = parseFloat(inputData.price);
     newAggStamp.obup = parseFloat(inputData.obup);
     newAggStamp.obdown = parseFloat(inputData.obdown);
     newAggStamp.volume = parseFloat(inputData.volume);
-
+    console.log("mongo connection: " + mongoose.connection.readyState);
     newAggStamp.save((err, data, numRows) => {
         if(err) console.log('Error: ' + err);
         else {
