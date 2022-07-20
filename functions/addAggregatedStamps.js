@@ -44,6 +44,7 @@ router.post('/addAggregatedStamps', (req, res) => {
     newAggStamp.obdown = parseFloat(inputData.obdown);
     newAggStamp.volume = parseFloat(inputData.volume);
     console.log("mongo connection: " + mongoose.connection.readyState);
+    while(mongoose.connection.readyState != 1) {}
     newAggStamp.save((err, data, numRows) => {
         if(err) console.log('Error: ' + err);
         else {
