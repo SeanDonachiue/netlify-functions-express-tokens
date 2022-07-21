@@ -23,7 +23,6 @@ mongoose.Promise = global.Promise;
   
 mongoose.connect(db, { useNewUrlParser : true, 
 useUnifiedTopology: true }, function(error) {
-    console.log("db connected")
     if (error) {
         console.log("Error!" + error);
     }
@@ -31,6 +30,7 @@ useUnifiedTopology: true }, function(error) {
 
 const app = express();
 const router = express.Router();
+
 router.post('/addAggregatedStamps', (req, res) => {
     console.log(req.body.data);
     let inputData = JSON.parse(req.body.data);
@@ -44,15 +44,18 @@ router.post('/addAggregatedStamps', (req, res) => {
     newAggStamp.obdown = parseFloat(inputData.obdown);
     newAggStamp.volume = parseFloat(inputData.volume);
     console.log("mongo connection: " + mongoose.connection.readyState);
-    while(mongoose.connection.readyState != 1) {}
     newAggStamp.save((err, data, numRows) => {
-        if(err) console.log('Error: ' + err);
+        if(err) {console.log('Error: ' + err);
+            res.send(err);
+        }
         else {
             console.log("New Aggregated Timestamp Saved: ");
             console.log("data: " + data);
         }
-    })
-    res.send("finished attempting to save data");
+    }).then(val => {
+        res.send("finished attempting to save data");
+    });
+    
 });
 
 app.use(cors())
