@@ -50,14 +50,12 @@ router.post('/addAggregatedStamps', (req, res) => {
     })
     newAggStamp.save((err, data, numRows) => {
         if(err) {console.log('Error: ' + err);
-            mongoose.disconnect();
             res.send(err);
         }
         else {
             console.log("New Aggregated Timestamp Saved: ");
             res.send("data: " + data);
         }
-        mongoose.disconnect();
     });
 });
 
