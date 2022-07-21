@@ -43,19 +43,23 @@ router.post('/addAggregatedStamps', (req, res) => {
     newAggStamp.obup = parseFloat(inputData.obup);
     newAggStamp.obdown = parseFloat(inputData.obdown);
     newAggStamp.volume = parseFloat(inputData.volume);
-    console.log("mongo connection: " + mongoose.connection.readyState);
+    
+    AggregatedStampModel.find({ token: "ethereum"}, (err, aggregatedStamps) => {
+        if (err) console.log(err);
+        else console.log("find performed successfully, db connection established")
+    })
     newAggStamp.save((err, data, numRows) => {
         if(err) {console.log('Error: ' + err);
+            mongoose.disconnect();
             res.send(err);
         }
         else {
             console.log("New Aggregated Timestamp Saved: ");
             console.log("data: " + data);
         }
-    }).then(val => {
         res.send("finished attempting to save data");
+        mongoose.disconnect();
     });
-    
 });
 
 app.use(cors())
