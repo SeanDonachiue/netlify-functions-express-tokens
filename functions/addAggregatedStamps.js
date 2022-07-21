@@ -55,9 +55,8 @@ router.post('/addAggregatedStamps', (req, res) => {
         }
         else {
             console.log("New Aggregated Timestamp Saved: ");
-            console.log("data: " + data);
+            res.send("data: " + data);
         }
-        res.send("finished attempting to save data");
         mongoose.disconnect();
     });
 });
