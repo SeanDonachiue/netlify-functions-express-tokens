@@ -33,7 +33,7 @@ const options = {
     },
   },
 };
-const movingAvg = 20; //TAKE THE MOVING AVERAGE TO SMOOTH DATA
+
 function OrderbookDataHook() {
 	const [data, setData] = useState([{}]);
 
@@ -67,33 +67,14 @@ function OrderbookDataHook() {
 					let newobup = []; 
 					let newobdown = [];
 					let newvolume = [];
-					//still need to take care of the end where you roll off the end of the input length
-					let obUpSum;
-					let obDownSum;
-					let upMA = movingAvg;
-					let downMA = movingAvg;
-					//every element in the response
-					for(let i = 0; i < aggArray.length - movingAvg; i++) {
-						for(let j = 0; j < movingAvg; j++) {
-							//take moving averages on obup and obdown
-							if(aggArray[i+j].obUp == null) upMa--;
-							else obUpSum += aggArray[i+j].obUp;
-							if(aggArray[i+j].obDown == null) downMA--;
-							else obDownSum += aggArray[i+j].obDown;
+					for(let i = 0; i < aggArray.length; i++) {
+						let currDate = new Date(aggArray[i].stamp);
 
-							//you've reached the end of the window, push the results
-							if(j==19) {
-								let currDate = new Date(aggArray[i + j].stamp);
-								newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
-								newobup.push(obUpSum / upMA); //take the moving averages
-								newobdown.push(obDownSum / downMA);
-								newvolume.push(aggArray[i + j].volume);
-							}
-						}
-						// newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
-						// newobup.push(aggArray[i].obup);
-						// newobdown.push(aggArray[i].obdown);
-						// newvolume.push(aggArray[i].volume);
+						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
+						newobup.push(aggArray[i].obup);
+						newobdown.push(aggArray[i].obdown);
+						newvolume.push(aggArray[i].volume);
+						console.log("in the loop")
 					}
 					console.log(newobup);
 				//data returns an array of objects pretty sure
