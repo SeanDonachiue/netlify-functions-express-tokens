@@ -68,6 +68,9 @@ function OrderbookDataHook() {
 					let newobdown = [];
 					let newvolume = [];
 					for(let i = 0; i < aggArray.length; i++) {
+						if(aggArray[i].obUp == null || aggArray[i].obDown == null) {
+							continue;
+						}
 						let currDate = new Date(aggArray[i].stamp);
 
 						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
