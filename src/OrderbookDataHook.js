@@ -33,7 +33,7 @@ const options = {
     },
   },
 };
-
+const movingAvg = 20; //TAKE THE MOVING AVERAGE TO SMOOTH DATA
 function OrderbookDataHook() {
 	const [data, setData] = useState([{}]);
 
@@ -67,14 +67,28 @@ function OrderbookDataHook() {
 					let newobup = []; 
 					let newobdown = [];
 					let newvolume = [];
-					for(let i = 0; i < aggArray.length; i++) {
-						let currDate = new Date(aggArray[i].stamp);
-
-						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
-						newobup.push(aggArray[i].obup);
-						newobdown.push(aggArray[i].obdown);
-						newvolume.push(aggArray[i].volume);
-						console.log("in the loop")
+					//still need to take care of the end where you roll off the end of the input length
+					let obUpSum;
+					let obDownSum;
+					//every element in the response
+					for(let i = 0; i < aggArray.length - movingAvg; i++) {
+						for(let j = 0; j < movingAvg; j++) {
+							//take moving averages on obup and obdown
+							obUpSum += aggArray[i+j].obUp;
+							obDownSum += aggArray[i+j].obDown;
+							//you've reached the end of the window, push the results
+							if(j==19) {
+								let currDate = new Date(aggArray[i + j].stamp);
+								newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
+								newobup.push(obUpSum / 20); //take the moving averages
+								newobdown.push(obDownSum / 20);
+								newvolume.push(aggArray[i + j].volume);
+							}
+						}
+						// newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
+						// newobup.push(aggArray[i].obup);
+						// newobdown.push(aggArray[i].obdown);
+						// newvolume.push(aggArray[i].volume);
 					}
 					console.log(newobup);
 				//data returns an array of objects pretty sure
