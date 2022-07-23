@@ -71,9 +71,9 @@ function OrderbookDataHook() {
 						//breaks the chart i guess
 						let currDate = new Date(aggArray[i].stamp);
 
-						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth() + "-" + currDate.getFullYear())
+						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + currDate.getMonth()+1 + "-" + currDate.getFullYear())
 						newobup.push(aggArray[i].obup);
-						newobdown.push(aggArray[i].obdown);
+						newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 						newvolume.push(aggArray[i].volume);
 						console.log("in the loop")
 					}
