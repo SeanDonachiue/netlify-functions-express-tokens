@@ -39,10 +39,10 @@ router.post('/addAggregatedStamps', (req, res) => {
     let newAggStamp = new AggregatedStampModel();
     newAggStamp.token = inputData.token;
     newAggStamp.stamp = inputData.stamp;
-    newAggStamp.price = inputData.price;
+    //newAggStamp.price = inputData.price;
     newAggStamp.obup = inputData.obup;
     newAggStamp.obdown = inputData.obdown;
-    newAggStamp.volume = inputData.volume;
+    //newAggStamp.volume = inputData.volume;
     
     AggregatedStampModel.find({ token: "ethereum"}, (err, aggregatedStamps) => {
         if (err) console.log(err);
