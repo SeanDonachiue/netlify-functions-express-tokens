@@ -49,13 +49,13 @@ function OrderbookDataHook(token) {
 	
 	//when the second param has a value changed, react calls useEffects again. this seems to be a bad pattern.
 	useEffect(() => {
-		fetchOBData();
+		fetchOBData(token);
 	}, []);
 
 	//todo switch URL on production environment via input or get all three
 
 
-	const fetchOBData = () => {
+	const fetchOBData = (token) => {
 				axios({
 					method: 'get',
 					url: "https://master--globaltokenbook.netlify.app/.netlify/functions/aggtokenusd",
