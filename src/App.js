@@ -4,7 +4,9 @@ import OrderbookDataHook from './OrderbookDataHook.js'
 function App() {
   return (
     <div className="App">
-      <OrderbookDataHook/> {/*TODO add inputs to this after datafetch*/}
+      <OrderbookDataHook token="ethereum"/>
+      <OrderbookDataHook token="bitcoin"/>
+      <OrderbookDataHook token="solana"/> {/*TODO add inputs to this after datafetch*/}
     </div>
   );
 }

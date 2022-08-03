@@ -34,7 +34,8 @@ const options = {
   },
 };
 
-function OrderbookDataHook() {
+//if you pass as input it seems you need new vars? no. just make a few and pass input to each
+function OrderbookDataHook(token) {
 	const [data, setData] = useState([{}]);
 
 	const [timestamps, setTimestamps] = useState([]);
@@ -46,18 +47,19 @@ function OrderbookDataHook() {
 
 	//maybe need to structure a new object for this
 	
-	//when the second param has a value changed, react calls useEffects again
+	//when the second param has a value changed, react calls useEffects again. this seems to be a bad pattern.
 	useEffect(() => {
 		fetchOBData();
 	}, []);
 
-	//todo switch URL on production environment
+	//todo switch URL on production environment via input or get all three
+
+
 	const fetchOBData = () => {
-				console.log("log it")
 				axios({
 					method: 'get',
 					url: "https://master--globaltokenbook.netlify.app/.netlify/functions/aggtokenusd",
-					params: {token : "ethereum"},
+					params: {token : token},
 					responseType: 'json',
 					timeout: '10000'
 				})
@@ -75,9 +77,7 @@ function OrderbookDataHook() {
 						newobup.push(aggArray[i].obup);
 						newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 						newvolume.push(aggArray[i].volume);
-						console.log("in the loop")
 					}
-					console.log(newobup);
 				//data returns an array of objects pretty sure
 				//aggArray is an array of json objects with fields
 				/*
