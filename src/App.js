@@ -5,8 +5,6 @@ function App() {
   return (
     <div className="App">
       <OrderbookDataHook token="ethereum"/>
-      <OrderbookDataHook token="bitcoin"/>
-      <OrderbookDataHook token="solana"/> {/*TODO add inputs to this after datafetch*/}
     </div>
   );
 }
