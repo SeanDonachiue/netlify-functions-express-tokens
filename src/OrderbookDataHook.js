@@ -35,7 +35,7 @@ const options = {
 };
 
 //if you pass as input it seems you need new vars? no. just make a few and pass input to each
-function OrderbookDataHook(token) {
+function OrderbookDataHook(props) {
 	const [data, setData] = useState([{}]);
 
 	const [timestamps, setTimestamps] = useState([]);
@@ -49,7 +49,7 @@ function OrderbookDataHook(token) {
 	
 	//when the second param has a value changed, react calls useEffects again. this seems to be a bad pattern.
 	useEffect(() => {
-		fetchOBData(token);
+		fetchOBData(props.token);
 	}, []);
 
 	//todo switch URL on production environment via input or get all three
