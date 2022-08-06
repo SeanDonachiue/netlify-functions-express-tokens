@@ -118,13 +118,13 @@ function OrderbookDataHook(props) {
       		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ' Orderbook Depth vs Time'
     		},
   		},
-  		scales: [
+  		scales: [{
   			y: {
   				title: {
   					text: 'Aggregated ±2% Orderbook Depth ($)'
   				}
   			}
-  		]
+  		}]
 		};
 	const labels = timestamps;
 	const chartData = {
