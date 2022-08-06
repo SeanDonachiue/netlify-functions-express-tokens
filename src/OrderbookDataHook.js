@@ -54,6 +54,20 @@ function OrderbookDataHook(props) {
 
 	//todo switch URL on production environment via input or get all three
 
+	const Months = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec"
+	]
 
 	const fetchOBData = (token) => {
 				axios({
@@ -72,8 +86,8 @@ function OrderbookDataHook(props) {
 					for(let i = 0; i < aggArray.length; i++) {
 						//breaks the chart i guess
 						let currDate = new Date(aggArray[i].stamp);
-						let month = currDate.getMonth() + 1;
-						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + month + "-" + currDate.getFullYear())
+						let month = currDate.getMonth();
+						newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().substring(2,4) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
 						newobup.push(aggArray[i].obup);
 						newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 						newvolume.push(aggArray[i].volume);
