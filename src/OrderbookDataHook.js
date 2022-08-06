@@ -21,19 +21,20 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Aggregated Orderbook Depth ($)'
-    },
-  },
-};
-
+const Months = [
+	"Jan",
+	"Feb",
+	"Mar",
+	"Apr",
+	"May",
+	"Jun",
+	"Jul",
+	"Aug",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Dec"
+	];
 //if you pass as input it seems you need new vars? no. just make a few and pass input to each
 function OrderbookDataHook(props) {
 	const [data, setData] = useState([{}]);
@@ -72,8 +73,9 @@ function OrderbookDataHook(props) {
 					for(let i = 0; i < aggArray.length; i++) {
 						//breaks the chart i guess
 						let currDate = new Date(aggArray[i].stamp);
-						let month = currDate.getMonth() + 1;
-						newtimestamps.push(currDate.getHours() + ":" + currDate.getMinutes() + "-" + currDate.getDate() + "-" + month + "-" + currDate.getFullYear())
+						let month = currDate.getMonth();
+
+						newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().substring(2,3) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
 						newobup.push(aggArray[i].obup);
 						newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 						newvolume.push(aggArray[i].volume);
@@ -105,6 +107,25 @@ function OrderbookDataHook(props) {
 		}
 	console.log("OBUP:" + obup)
 	console.log("OBDOWN:" + obdown)
+	const options = {
+  		responsive: true,
+  		plugins: {
+    		legend: {
+      		position: 'top',
+    		},
+    		title: {
+     		 	display: true,
+      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length()-1) + ' Orderbook Depth vs Time'
+    		},
+  		},
+  		scales: {
+  			y: {
+  				title: {
+  					text: 'Aggregated ±2% Orderbook Depth ($)'
+  				}
+  			}
+  		}
+		};
 	const labels = timestamps;
 	const chartData = {
     labels,
