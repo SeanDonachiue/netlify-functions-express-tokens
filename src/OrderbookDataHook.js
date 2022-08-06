@@ -21,7 +21,7 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-let options = {
+const options = {
   		responsive: true,
   		plugins: {
     		legend: {
@@ -119,7 +119,7 @@ function OrderbookDataHook(props) {
 		}
 	console.log("OBUP:" + obup)
 	console.log("OBDOWN:" + obdown)
-	options.plugins.title.text += ' (' + props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ')';
+	//options.plugins.title.text += ' (' + props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ')';
 	const labels = timestamps;
 	const chartData = {
     labels,
