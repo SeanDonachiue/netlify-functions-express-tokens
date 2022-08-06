@@ -75,7 +75,7 @@ function OrderbookDataHook(props) {
 						let currDate = new Date(aggArray[i].stamp);
 						let month = currDate.getMonth();
 
-						newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().substring(2,3) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
+						newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().substring(2,4) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
 						newobup.push(aggArray[i].obup);
 						newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 						newvolume.push(aggArray[i].volume);
@@ -115,16 +115,16 @@ function OrderbookDataHook(props) {
     		},
     		title: {
      		 	display: true,
-      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length-1) + ' Orderbook Depth vs Time'
+      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ' Orderbook Depth vs Time'
     		},
   		},
-  		scales: {
+  		scales: [
   			y: {
   				title: {
   					text: 'Aggregated ±2% Orderbook Depth ($)'
   				}
   			}
-  		}
+  		]
 		};
 	const labels = timestamps;
 	const chartData = {
