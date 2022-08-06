@@ -115,7 +115,7 @@ function OrderbookDataHook(props) {
     		},
     		title: {
      		 	display: true,
-      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length()-1) + ' Orderbook Depth vs Time'
+      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length-1) + ' Orderbook Depth vs Time'
     		},
   		},
   		scales: {
