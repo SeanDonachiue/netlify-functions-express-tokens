@@ -21,6 +21,18 @@ ChartJS.register(
     Tooltip,
     Legend
   );
+let options = {
+  		responsive: true,
+  		plugins: {
+    		legend: {
+      		position: 'top',
+    		},
+    		title: {
+     		 	display: true,
+      		text: 'Orderbook Depth vs Time'
+    		},
+  		},
+		};
 const Months = [
 	"Jan",
 	"Feb",
@@ -91,21 +103,6 @@ function OrderbookDataHook(props) {
 					volume
 				*/
 				//override every element of data with the elements of aggArray
-
-					const options = {
-  		responsive: true,
-  		plugins: {
-    		legend: {
-      		position: 'top',
-    		},
-    		title: {
-     		 	display: true,
-      		text: props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ' Orderbook Depth vs Time'
-    		},
-  		},
-		};
-
-
 					setData([...data, ...aggArray]);
 					setObUp([...obup, ...newobup]);
 					setObDown([...obdown, ...newobdown]);
@@ -122,7 +119,7 @@ function OrderbookDataHook(props) {
 		}
 	console.log("OBUP:" + obup)
 	console.log("OBDOWN:" + obdown)
-	
+	options.plugins.title.text += ' (' + props.token.charAt(0).toUpperCase() + props.token.substring(1, props.token.length) + ')';
 	const labels = timestamps;
 	const chartData = {
     labels,
