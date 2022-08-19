@@ -1,46 +1,9 @@
 .App {
   text-align: center;
 }
-
-.github-corner {
-
+#root {
+  overflow:  hidden;
 }
-.github-corner svg {
-  height: 80px;
-  width: 80px;
-  fill: #151513;
-  color: #fff;
-  position: absolute;
-  top: 0;
-  border: 0;
-  right: 0;
-  z-index: 99;
-}
-.github-corner:hover .octo-arm {
-  animation: octocat-wave 560ms ease-in-out;
-}
-
-.logo-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  z-index: 2;
-}
-.netlify-logo {
-  height: 60px;
-}
-.express-logo {
-  height: 47px;
-  margin-top: 15px;
-}
-.and {
-  font-size: 40px;
-  margin: 0 15px;
-  margin-left: 14px;
-  color: #323233;
-}
-
 .App-header {
   height: 140px;
   padding: 20px;
@@ -146,30 +109,7 @@
 
 @media (max-width: 768px) {
 
-  .App-header {
-    height: auto;
-  }
-  .App-title {
-    font-size: 22px;
-  }
-  .logo-wrapper {
-    flex-direction: column;
-    margin-top: 5px;
-  }
-  .and {
-    font-size: 30px;
-  }
-  .github-corner svg {
-    height: 60px;
-    width: 60px;
-  }
 }
 
 @media (max-width:500px) {
-  .github-corner:hover .octo-arm {
-    animation:none
-  }
-  .github-corner .octo-arm {
-    animation:octocat-wave 560ms ease-in-out
-  }
 }

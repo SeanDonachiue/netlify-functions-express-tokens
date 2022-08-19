@@ -43,8 +43,8 @@ function OrderbookDepthChart(props) {
 	//trigger rerender if you alter this stuff maybe idk. none of the prop changes do anything.
 
   return(
-  	<div style={{display: 'flex', flexDirection: 'row'}}>
-  		<div style={{display: 'flex', flexDirection: 'column'}}>
+  	<div>
+  		<div style={{display: 'flex', flexDirection: 'row', position: 'relative', left: '12px', top: '50px', marginTop: '-25px'}}>
   			<ToggleButton value="display" aria-label="toggle-display">
   				{isVis ? <VisibilityIcon fontSize="medium" onClick={handleVisClick}/> : <VisibilityOffIcon fontSize="medium" onClick={handleVisClick}/>}
   			</ToggleButton>
@@ -52,7 +52,7 @@ function OrderbookDepthChart(props) {
   				{isAllData ? <HistoryToggleOffIcon fontSize="medium" onClick={handleDataClick}/> : <MoreTimeIcon fontSize="medium" onClick={handleDataClick}/>}
   			</ToggleButton>
   		</div>
-		{isVis ? <OrderbookDataHook key={props.token} token={props.token} isAllData={isAllData} isVis={isVis}/> : <></>}
+		{isVis ? <OrderbookDataHook style={{position: 'relative', bottom: '10px'}} key={props.token} token={props.token} isAllData={isAllData} isVis={isVis}/> : <></>}
     </div>
     
   )

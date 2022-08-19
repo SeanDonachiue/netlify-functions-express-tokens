@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import zoomPlugin from 'chartjs-plugin-zoom';
 import {Line} from 'react-chartjs-2';
 
 
@@ -20,24 +21,57 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    zoomPlugin,
   );
 
 //if you pass as input it seems you need new vars? no. just make a few and pass input to each
 function OrderbookDataHook(props) {
 	let options = {
   	responsive: true,
+  	scales: {
+  		x: {
+  		},
+  		y: {
+  			ticks: {
+  				callback: function(value, index, ticks) {
+  					return "$" + value / 1000000 + "M"
+  				}
+  			},
+  		}
+  	},
   	plugins: {
+  		
+  		zoom: {
+  			limits: {
+  				x: {min: 'original', max: 'original'},
+  				y: {min: 'original', max: 'original'},
+  			},
+  			pan: {
+  				enabled: true,
+  				mode: 'xy',
+  			},
+  			zoom: {
+  				wheel: {
+  					enabled: true,
+  					modifierKey: 'ctrl',
+  				},
+  				pinch: {
+  					enabled: true,
+  				},
+  			},
+  			mode: 'xy',
+  		},
     	legend: {
       	position: 'top',
     	},
     	title: {
       	display: true,
-      	text: 'Aggregated Orderbook Depth ($)'
+      	text: '±2% Aggregated Orderbook Depth'
     	},
   	},
 	};
-	options.plugins.title.text = props.token.substring(0,1).toUpperCase() + props.token.substring(1, props.token.length) + " Aggregated Orderbook Depth ($)";
+	options.plugins.title.text = props.token.substring(0,1).toUpperCase() + props.token.substring(1, props.token.length) + " ±2% Aggregated Orderbook Depth";
 	const [data, setData] = useState([{}]);
 	const [timestamps, setTimestamps] = useState([]);
 	const [obup, setObUp] = useState([]);
@@ -86,6 +120,8 @@ function OrderbookDataHook(props) {
 
 		//lookback period set here because we are setting state vars for the chart content
 		if(!isAll) lookbackStart = aggArray.length - 144;
+		//want to also take the 6ma of everything here or have a flag for that etc
+		//pass a param for MAs I guess? idk.
 
 		for(let i = lookbackStart; i < aggArray.length; i++) {
 			let currDate = new Date(aggArray[i].stamp);
@@ -110,6 +146,7 @@ function OrderbookDataHook(props) {
 		//setVolume([...volume, ...newvolume]);
 		setTimestamps([...newtimestamps]);
 	}
+
 	const fetchOBData = async (token) => {
 		try{
 				const res = await axios({
