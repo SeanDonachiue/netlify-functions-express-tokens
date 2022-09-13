@@ -93,13 +93,16 @@ function OrderbookDataHook(props) {
 		}
 		//component did update logic
 		else {
-				handleOBData();
+				handleOBData(props.maLength, props.lookback);
 		}		
 	}, [data]);
 	
+
+	//when isAll (state var) is updated, if the component is mounted, run HandleOBData();
+	//when props.isAllData is updated, repaint the ui and set isAll state var.
 	useEffect(()=> {
 		if(mounted.current) {
-			handleOBData();
+			handleOBData(props.maLength, props.lookback);
 		}
 	},[isAll])
 	useLayoutEffect(() => {
@@ -107,31 +110,52 @@ function OrderbookDataHook(props) {
 		setIsAll(foo);
 	}, [props.isAllData])
 
-	const handleOBData = async () => {
-		data.shift();
+	//so if I want to update anything in the UI quickly, it has to follow this pattern???? not sure
+	//need to think more about what is happening here fundamentally
+
+
+	const handleOBData = async (maLength, lookback) => {
+		data.shift(); //off by one somehow
 		let aggArray = data;
 		let newtimestamps = [];
 		let newobup = []; 
 		let newobdown = [];
 		let newvolume = [];
-		let j = 1;
-		let k = 2;
+		let maUp = [];
+		let maDown = [];
+		
 		let lookbackStart = 0;
-
+		//let maStart;
 		//lookback period set here because we are setting state vars for the chart content
-		if(!isAll) lookbackStart = aggArray.length - 144;
+		if(!isAll) {
+			lookbackStart = aggArray.length - lookback; 
+			//maStart = lookbackStart - maLength;
+		}
 		//want to also take the 6ma of everything here or have a flag for that etc
 		//pass a param for MAs I guess? idk.
 
 		for(let i = lookbackStart; i < aggArray.length; i++) {
+			// // maStart = i - maLength;
+			// // let maUpSum = 0;
+			// // let maDownSum = 0;
+			// // for(let j = maStart; j < maStart + maLength; j++) {
+			// // 	maUpSum += aggArray[j].obup;
+			// // 	maDownSum += aggArray[j].obdown;
+			// // }
+			// let movingAvgUp = maUpSum/maLength;
+			// let movingAvgDown = maDownSum/maLength;
+			// console.log(movingAvgUp);
+			// maUp.push(movingAvgUp);
+			// maDown.push(movingAvgDown);
 			let currDate = new Date(aggArray[i].stamp);
 			let month = currDate.getMonth();
 			newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().toString().substring(2,4) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
-			newobup.push(aggArray[i].obup);
-			newobdown.push(aggArray[i].obdown); //probably strings rather than numbers
 			newvolume.push(aggArray[i].volume);
+			newobup.push(aggArray[i].obup);
+			newobdown.push(aggArray[i].obdown);
 		}
-
+		let j = 1;
+		let k = 2;
 		//prune outlier spikes (TODO prune in the database itself/simply save the prior value if spikes by 50% or more)
 		for(let i = 0; i < newobup.length-2; i++) {
 			if(newobup[j] >= newobup[i] + Math.floor(newobup[i]/2))
@@ -141,10 +165,17 @@ function OrderbookDataHook(props) {
 				j++;
 				k++;
 		}
-		setObUp([...newobup]);
-		setObDown([...newobdown]);
-		//setVolume([...volume, ...newvolume]);
 		setTimestamps([...newtimestamps]);
+		//setVolume([...volume, ...newvolume]);
+		if(maLength != 1) {
+			setObUp([...maUp]);
+			setObDown([...maDown]);
+		}
+		else {
+			setObUp([...newobup]);
+			setObDown([...newobdown]);
+		}
+
 	}
 
 	const fetchOBData = async (token) => {
