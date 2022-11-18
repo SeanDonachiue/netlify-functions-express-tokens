@@ -43,15 +43,15 @@ function OrderbookDepthChart(props) {
   	}}, []);
 
 	//blocks renders until function is done
-  	// useLayoutEffect(() => {
-  	// 	console.log("useLayoutEffects")
-  	// }, [isVis, isAllData]);
+  	useLayoutEffect(() => {
+  	 	console.log("useLayoutEffects") //runs three times
+  	}, [isVis, isAllData]);
 
 	//trigger rerender if you alter this stuff maybe idk. none of the prop changes do anything.
 
   return(
   	<div>
-  		<div style={{display: 'flex', flexDirection: 'row', position: 'relative', left: '12px', top: '50px', marginTop: '-25px', height: '40px', width: '250px'}}>
+  		<div style={{display: 'flex', flexDirection: 'row', marginTop: '25px', height: '40px', width: '250px'}}>
   			<ToggleButton value="display" aria-label="toggle-display">
   				{isVis ? <VisibilityIcon fontSize="medium" onClick={handleVisClick}/> : <VisibilityOffIcon fontSize="medium" onClick={handleVisClick}/>}
   			</ToggleButton>
@@ -63,7 +63,7 @@ function OrderbookDepthChart(props) {
   				label="Mov Avg"
   				
   				type="number"
-  				defaultValue="1"
+  				defaultValue={maLength}
   				variant="outlined"
   				size="small"
   				aria-label="Moving Average"
@@ -73,14 +73,17 @@ function OrderbookDepthChart(props) {
   				id="lookbackInput"
   				label="Lookback"
   				type='number'
-  				defaultValue="144"
+  				defaultValue={lookback}
   				variant="outlined"
   				size="small"
   				aria-label="Lookback Period"
   				onChange={handleLookback}
   			/>
   		</div>
-		{isVis ? <OrderbookDataHook style={{position: 'relative', bottom: '10px'}} key={props.token} token={props.token} maLength={maLength} lookback={lookback} isAllData={isAllData} isVis={isVis}/> : <></>}
+  		<div style={{display: isVis? 'block' : 'none'}}>
+  			<OrderbookDataHook style={{position: 'relative', bottom: '10px'}} key={props.token} token={props.token} maLength={maLength} lookback={lookback} isAllData={isAllData} isVis={isVis}/>
+  		</div>
+		
     </div>
     
   )

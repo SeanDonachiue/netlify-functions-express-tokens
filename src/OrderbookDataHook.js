@@ -80,8 +80,11 @@ function OrderbookDataHook(props) {
 
 	const [isFetching, setIsFetching] = useState(true);
 	const[isAll, setIsAll] = useState(props.isAllData);
+	const[lookback, setLookback] = useState(props.lookback);
+	const[maLength, setMALength] = useState(props.maLength);
 	//maybe need to structure a new object for this
 	
+
 	//when the second param has a value changed, react calls useEffects again. this seems to be a bad pattern.
 	const mounted = useRef();
 	useEffect(() => {
@@ -104,11 +107,28 @@ function OrderbookDataHook(props) {
 		if(mounted.current) {
 			handleOBData(props.maLength, props.lookback);
 		}
+	},[lookback])
+	useLayoutEffect(() => {
+		setLookback(props.lookback);
+	}, [props.lookback])
+
+	useEffect(()=> {
+		if(mounted.current) {
+			handleOBData(props.maLength, props.lookback);
+		}
 	},[isAll])
 	useLayoutEffect(() => {
-		let foo = props.isAllData;
-		setIsAll(foo);
+		setIsAll(props.isAllData);
 	}, [props.isAllData])
+
+	useEffect(()=> {
+		if(mounted.current) {
+			handleOBData(props.maLength, props.lookback);
+		}
+	},[maLength])
+	useLayoutEffect(() => {
+		setMALength(props.maLength);
+	}, [props.maLength])
 
 	//so if I want to update anything in the UI quickly, it has to follow this pattern???? not sure
 	//need to think more about what is happening here fundamentally

@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="App">
       <OrderbookDepthChart token="ethereum" id="1"/> {/*need to handle visibility out here instead, potentially also toggle groups would make sense.*/}
-      <OrderbookDepthChart token="bitcoin" id="2"/>
-      <OrderbookDepthChart token="solana" id="3"/>
+      {/*<OrderbookDepthChart token="bitcoin" id="2"/>
+      <OrderbookDepthChart token="solana" id="3"/>}*/}
     </div>
   );
 }
