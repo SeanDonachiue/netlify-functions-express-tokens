@@ -12,14 +12,14 @@ function OrderbookDepthChart(props) {
 	const [isVis, setVis] = useState(true);
 	const [isAllData, setIsAllData] = useState(true);
 	const [maLength, setMALength] = useState(1);
-	const [lookback, setLookback] = useState(144);
+	const [lookback, setLookback] = useState(5);
 	const handleLookback = (e) => {
 		e.preventDefault();
-		setLookback(e.currentTarget.value);
+		setLookback(parseInt(e.currentTarget.value));
 	}
 	const handleMAUpdate = (e) => {
 		e.preventDefault();
-		setMALength(e.currentTarget.value);
+		setMALength(parseInt(e.currentTarget.value));
 	}
 	const handleVisClick = () => {
 		setVis(isVis => !isVis);
@@ -44,7 +44,6 @@ function OrderbookDepthChart(props) {
 
 	//blocks renders until function is done
   	useLayoutEffect(() => {
-  	 	console.log("useLayoutEffects") //runs three times
   	}, [isVis, isAllData]);
 
 	//trigger rerender if you alter this stuff maybe idk. none of the prop changes do anything.

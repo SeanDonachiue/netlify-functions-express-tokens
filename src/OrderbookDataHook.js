@@ -76,6 +76,8 @@ function OrderbookDataHook(props) {
 	const [timestamps, setTimestamps] = useState([]);
 	const [obup, setObUp] = useState([]);
 	const [obdown, setObDown] = useState([]);
+	const [maUp, setMAUp] = useState([]);
+	const [maDown, setMADown] = useState([]);
 	//const [volume, setVolume] = useState([]);
 
 	const [isFetching, setIsFetching] = useState(true);
@@ -89,13 +91,16 @@ function OrderbookDataHook(props) {
 	const mounted = useRef();
 	useEffect(() => {
 		
-		//component did mount logic
+		//component did mount logic. if not yet mounted, fetch the data
 		if(!mounted.current) {
 			mounted.current = true;
+			console.log("not mounted, fetching data")
 			fetchOBData(props.token);
+
 		}
-		//component did update logic
+		//component did update logic. component HAS mounted, handle the data
 		else {
+				console.log("mounted, data fields fetched, handling data")
 				handleOBData(props.maLength, props.lookback);
 		}		
 	}, [data]);
@@ -133,40 +138,52 @@ function OrderbookDataHook(props) {
 	//so if I want to update anything in the UI quickly, it has to follow this pattern???? not sure
 	//need to think more about what is happening here fundamentally
 
-
 	const handleOBData = async (maLength, lookback) => {
-		data.shift(); //off by one somehow
-		let aggArray = data;
+		let aggArray = [...data];
+		if(aggArray.length == 1) {
+			console.log("data not yet written to state, returning...");
+			return;
+		}
+		//aggArray.shift();
+		console.log(aggArray);
 		let newtimestamps = [];
 		let newobup = []; 
 		let newobdown = [];
 		let newvolume = [];
-		let maUp = [];
-		let maDown = [];
+		let newmaUp = [];
+		let newmaDown = [];
 		
 		let lookbackStart = 0;
-		//let maStart;
+
 		//lookback period set here because we are setting state vars for the chart content
 		if(!isAll) {
-			lookbackStart = aggArray.length - lookback; 
-			//maStart = lookbackStart - maLength;
+			lookbackStart = aggArray.length - 1 - lookback; 
 		}
 		//want to also take the 6ma of everything here or have a flag for that etc
 		//pass a param for MAs I guess? idk.
-
+		//console.log(lookbackStart + " lookbackstart")
+		//console.log(aggArray.length + " array length")
 		for(let i = lookbackStart; i < aggArray.length; i++) {
-			// // maStart = i - maLength;
-			// // let maUpSum = 0;
-			// // let maDownSum = 0;
-			// // for(let j = maStart; j < maStart + maLength; j++) {
-			// // 	maUpSum += aggArray[j].obup;
-			// // 	maDownSum += aggArray[j].obdown;
-			// // }
-			// let movingAvgUp = maUpSum/maLength;
-			// let movingAvgDown = maDownSum/maLength;
-			// console.log(movingAvgUp);
-			// maUp.push(movingAvgUp);
-			// maDown.push(movingAvgDown);
+
+			let windowEnd = i + maLength;
+			//console.log("windowEnd: " + windowEnd);
+			//console.log("arr length: " + aggArray.length);
+			if(windowEnd <= aggArray.length) {
+				//console.log("windowEnd: " + windowEnd);
+				let maUpSum = 0;
+				let maDownSum = 0;
+				for(let curr = i; curr < windowEnd; curr++) {
+					//console.log("index i:" + i);
+					//console.log("index curr: " + curr);
+					maUpSum += aggArray[curr].obup;
+					maDownSum += aggArray[curr].obdown;
+				}
+
+				newmaUp.push(maUpSum/maLength);
+				newmaDown.push(maDownSum/maLength);					
+			}
+			
+			//************ raw data and timestamps ******************//
 			let currDate = new Date(aggArray[i].stamp);
 			let month = currDate.getMonth();
 			newtimestamps.push(currDate.getDate() + "-" + Months[month] + "-" + currDate.getFullYear().toString().substring(2,4) + "-" + currDate.getHours() + ":" + currDate.getMinutes())
@@ -187,14 +204,10 @@ function OrderbookDataHook(props) {
 		}
 		setTimestamps([...newtimestamps]);
 		//setVolume([...volume, ...newvolume]);
-		if(maLength != 1) {
-			setObUp([...maUp]);
-			setObDown([...maDown]);
-		}
-		else {
-			setObUp([...newobup]);
-			setObDown([...newobdown]);
-		}
+		setMAUp([...newmaUp]);
+		setMADown([...newmaDown]);
+		setObUp([...newobup]);
+		setObDown([...newobdown]);
 
 	}
 
@@ -232,10 +245,22 @@ function OrderbookDataHook(props) {
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
+        label: 'Ask MA',
+        data: maUp,
+        borderColor: 'rgb(250, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.3)',
+      },
+      {
         label: 'Bid',
         data: obdown,
         borderColor: 'rgb(53, 235, 162)',
         backgroundColor: 'rgba(53, 235, 162, 0.5)',
+      },
+      {
+        label: 'Bid MA',
+        data: maDown,
+        borderColor: 'rgb(53, 230, 162)',
+        backgroundColor: 'rgba(53, 235, 162, 0.3)',
       },
     ],
   };
