@@ -11,8 +11,8 @@ function OrderbookDepthChart(props) {
 	//have toggles controlling these states => props for charts
 	const [isVis, setVis] = useState(true);
 	const [isAllData, setIsAllData] = useState(true);
-	const [maLength, setMALength] = useState(1);
-	const [lookback, setLookback] = useState(5);
+	const [maLength, setMALength] = useState(6);
+	const [lookback, setLookback] = useState(144);
 	const handleLookback = (e) => {
 		e.preventDefault();
 		setLookback(parseInt(e.currentTarget.value));
