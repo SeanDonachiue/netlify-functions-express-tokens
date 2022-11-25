@@ -6,6 +6,7 @@ const AggregatedStampSchema = new Schema({
 	stamp: Date,
 	obup: Number,
 	obdown: Number,
+	volume: Number,
 });
 
 const AggregatedStampModel = model("AggregatedStamp", AggregatedStampSchema);
