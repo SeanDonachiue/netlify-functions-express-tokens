@@ -33,12 +33,28 @@ function OrderbookDataHook(props) {
   		x: {
   		},
   		y: {
+  			type: 'linear',
+  			display: true,
+  			position: 'left',
   			ticks: {
   				callback: function(value, index, ticks) {
   					return "$" + value / 1000000 + "M"
   				}
   			},
-  		}
+  		},
+  		y1: {
+  			type: 'linear',
+  			display: true,
+  			position: 'right',
+  			ticks: {
+  				callback: function(value, index, ticks) {
+  					return "$" + value / 1000000000 + "B"
+  				}
+  			},
+  			grid: {
+  				drawOnChartArea: false,
+  			},
+  		},
   	},
   	plugins: {
   		
@@ -67,18 +83,18 @@ function OrderbookDataHook(props) {
     	},
     	title: {
       	display: true,
-      	text: '±2% Aggregated Orderbook Depth'
+      	text: '±2% Aggregated Spot Orderbook Depth'
     	},
   	},
 	};
-	options.plugins.title.text = props.token.substring(0,1).toUpperCase() + props.token.substring(1, props.token.length) + " ±2% Aggregated Orderbook Depth";
+	options.plugins.title.text = props.token.substring(0,1).toUpperCase() + props.token.substring(1, props.token.length) + " ±2% Aggregated Spot Orderbook Depth";
 	const [data, setData] = useState([{}]);
 	const [timestamps, setTimestamps] = useState([]);
 	const [obup, setObUp] = useState([]);
 	const [obdown, setObDown] = useState([]);
 	const [maUp, setMAUp] = useState([]);
 	const [maDown, setMADown] = useState([]);
-	//const [volume, setVolume] = useState([]);
+	const [volume, setVolume] = useState([]);
 
 	const [isFetching, setIsFetching] = useState(true);
 	const[isAll, setIsAll] = useState(props.isAllData);
@@ -203,7 +219,7 @@ function OrderbookDataHook(props) {
 				k++;
 		}
 		setTimestamps([...newtimestamps]);
-		//setVolume([...volume, ...newvolume]);
+		setVolume([...volume, ...newvolume]);
 		setMAUp([...newmaUp]);
 		setMADown([...newmaDown]);
 		setObUp([...newobup]);
@@ -238,30 +254,39 @@ function OrderbookDataHook(props) {
 	const chartData = {
     labels,
     datasets: [
-      {
-        label: 'Ask',
-        data: obup,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
+      // {
+      //   label: 'Ask',
+      //   data: obup,
+      //   borderColor: 'rgb(255, 99, 132)',
+      //   backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      // },
       {
         label: 'Ask MA',
         data: maUp,
         borderColor: 'rgb(250, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.3)',
+        yAxisID: 'y',
       },
-      {
-        label: 'Bid',
-        data: obdown,
-        borderColor: 'rgb(53, 235, 162)',
-        backgroundColor: 'rgba(53, 235, 162, 0.5)',
-      },
+      // {
+      //   label: 'Bid',
+      //   data: obdown,
+      //   borderColor: 'rgb(53, 235, 162)',
+      //   backgroundColor: 'rgba(53, 235, 162, 0.5)',
+      // },
       {
         label: 'Bid MA',
         data: maDown,
         borderColor: 'rgb(53, 230, 162)',
         backgroundColor: 'rgba(53, 235, 162, 0.3)',
+        yAxisID: 'y',
       },
+      {
+      	label: '24h Volume (right)',
+      	data: volume,
+      	borderColor: 'rgb(250,218,94)',
+      	backgroundColor: 'rgba(250, 218, 94, 0.5)',
+      	yAxisID: 'y1',
+      }
     ],
   };
   return (

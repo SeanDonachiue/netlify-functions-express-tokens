@@ -50,7 +50,7 @@ function OrderbookDepthChart(props) {
 
   return(
   	<div>
-  		<div style={{display: 'flex', flexDirection: 'row', marginTop: '25px', height: '40px', width: '250px'}}>
+  		<div style={{display: 'flex', flexDirection: 'row', position: 'relative', top: '55px', left: '15px', height: '40px', width: '250px'}}>
   			<ToggleButton value="display" aria-label="toggle-display">
   				{isVis ? <VisibilityIcon fontSize="medium" onClick={handleVisClick}/> : <VisibilityOffIcon fontSize="medium" onClick={handleVisClick}/>}
   			</ToggleButton>
