@@ -181,14 +181,14 @@ function OrderbookDataHook(props) {
 		//console.log(aggArray.length + " array length")
 		for(let i = lookbackStart; i < aggArray.length; i++) {
 
-			let windowEnd = i + maLength;
+			let windowEnd = i - maLength;
 			//console.log("windowEnd: " + windowEnd);
 			//console.log("arr length: " + aggArray.length);
 			if(windowEnd <= aggArray.length) {
 				//console.log("windowEnd: " + windowEnd);
 				let maUpSum = 0;
 				let maDownSum = 0;
-				for(let curr = i; curr < windowEnd; curr++) {
+				for(let curr = i; curr > windowEnd; curr--) {
 					//console.log("index i:" + i);
 					//console.log("index curr: " + curr);
 					maUpSum += aggArray[curr].obup;
@@ -210,16 +210,16 @@ function OrderbookDataHook(props) {
 		let j = 1;
 		let k = 2;
 		//prune outlier spikes (TODO prune in the database itself/simply save the prior value if spikes by 50% or more)
-		for(let i = 0; i < newobup.length-2; i++) {
-			if(newobup[j] >= newobup[i] + Math.floor(newobup[i]/2))
-				newobup[j] = Math.floor((newobup[i] + newobup[k])/2);
-			if(newobdown[j] >= newobdown[i] + Math.floor(newobdown[i]/2))
-				newobdown[j] = Math.floor((newobdown[i] + newobdown[k])/2);
-				j++;
-				k++;
-		}
+		// for(let i = 0; i < newobup.length-2; i++) {
+		// 	if(newobup[j] >= newobup[i] + Math.floor(newobup[i]/2))
+		// 		newobup[j] = Math.floor((newobup[i] + newobup[k])/2);
+		// 	if(newobdown[j] >= newobdown[i] + Math.floor(newobdown[i]/2))
+		// 		newobdown[j] = Math.floor((newobdown[i] + newobdown[k])/2);
+		// 		j++;
+		// 		k++;
+		// }
 		setTimestamps([...newtimestamps]);
-		setVolume([...volume, ...newvolume]);
+		setVolume([...newvolume]);
 		setMAUp([...newmaUp]);
 		setMADown([...newmaDown]);
 		setObUp([...newobup]);
