@@ -243,6 +243,7 @@ function OrderbookDataHook(props) {
 				catch(err) {
 					console.log(err);
 					//leave the data the same but still "update" state to rerender
+					//TODO if you get code: "ECONN ABORTED", retry the request
 					setData(data);
 					setIsFetching(false);
 				};
