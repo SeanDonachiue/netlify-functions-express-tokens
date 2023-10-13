@@ -179,7 +179,7 @@ function FTChart(props) {
 
 
   
-  return (<div><Line ref={chartRef} options={options} data={chartData} onClick={clickE} redraw={false}/></div> );
+  return (<div><Line ref={chartRef} options={options} data={chartData} onClick={clickE} onTouchStart={clickE} redraw={false}/></div> );
 }
 
 //x*x/16000 * 1 eth
