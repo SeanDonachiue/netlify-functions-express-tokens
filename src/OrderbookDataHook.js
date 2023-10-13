@@ -231,7 +231,7 @@ function OrderbookDataHook(props) {
 		try{
 				const res = await axios({
 					method: 'get',
-					url: "https://master--globaltokenbook.netlify.app/.netlify/functions/aggtokenusd",
+					url: "https://master--ftcurve.netlify.app/.netlify/functions/aggtokenusd",
 					params: {token : token},
 					responseType: 'json',
 					timeout: '10000'
