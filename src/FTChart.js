@@ -155,6 +155,10 @@ function FTChart(props) {
       draw(canvas, context, pointClicked, relevant, points);
     }
   }
+  const touchE = (e) => {
+    e.preventDefault();
+    e.target.onClick();
+  }
 
   const draw = (cnv, ctx, point, index, pts) => {
     ctx.fillStyle = "rgb(10, 250, 200)";
@@ -179,7 +183,7 @@ function FTChart(props) {
 
 
   
-  return (<div><Line ref={chartRef} options={options} data={chartData} onClick={clickE} onTouchStart={clickE} redraw={false}/></div> );
+  return (<div><Line ref={chartRef} options={options} data={chartData} onClick={clickE} onTouchStart={touchE} redraw={false}/></div> );
 }
 
 //x*x/16000 * 1 eth
