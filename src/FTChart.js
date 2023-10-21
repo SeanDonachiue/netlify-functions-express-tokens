@@ -157,7 +157,7 @@ function FTChart(props) {
   }
   const touchE = (e) => {
     e.preventDefault();
-    e.target.onClick();
+    e.target.onclick();
   }
 
   const draw = (cnv, ctx, point, index, pts) => {
